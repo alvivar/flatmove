@@ -14,6 +14,10 @@ optional arguments:
   -y, --year   use the modified year of the file as subfolder
   -m, --month  use the modified month of the file as subfolder
   -d, --day    use the modified day of the file as subfolder
+
+
+TODO
+    - Handle files with the same name into the same folder exception
 """
 
 import argparse
