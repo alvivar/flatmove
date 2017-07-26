@@ -23,4 +23,4 @@ For **example**, this will gather all files inside /photos and organize them in 
 python flatmove.py -ym /photos
 ```
 
-*Warning*: Don't use this on files that depend on his folder structure, it could get messy :P I'll support this feature later though!
+*Warning*: Be cautious about using this on files that depend on his folder structure, it could get messy :)!
