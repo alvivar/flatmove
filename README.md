@@ -1,8 +1,8 @@
 ```
 usage: flatmove.py [-h] [-y] [-m] [-d] source [destiny]
 
-Move all files (including files in subfolders) from a path to another (without
-the subfolders)
+Moves all files (including files in subfolders) from a path to another
+(without the subfolders)
 
 positional arguments:
   source       all files under this path will be moved
@@ -23,4 +23,4 @@ For **example**, this will gather all files inside /photos and organize them in 
 python flatmove.py -ym /photos
 ```
 
-*Warning*: Don't use this on files that depend on his directory structure, it could get messy :P I'll support this feature later though!
+*Warning*: Don't use this on files that depend on his folder structure, it could get messy :P I'll support this feature later though!

@@ -1,11 +1,12 @@
 """
 usage: flatmove.py [-h] [-y] [-m] [-d] source [destiny]
 
-Move all files (including files in subfolders) from a path to another
+Moves all files (including files in subfolders) from a path to another
+(without the subfolders)
 
 positional arguments:
   source       all files under this path will be moved
-  destiny      files will be moved here if specified (else will use the same
+  destiny      files will be moved here if specified (else will also use the
                source instead)
 
 optional arguments:
@@ -60,15 +61,15 @@ def flatmove(source,
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
-        description="Move all files (including files in subfolders) "
-        "from a path to another")
+        description="Moves all files (including files in subfolders) "
+        "from a path to another (without the subfolders)")
 
     parser.add_argument(
         "source", help="all files under this path will be moved")
     parser.add_argument(
         "destiny",
         help="files will be moved here if specified "
-        "(else will use the same source instead)",
+        "(else will also use the source instead)",
         nargs='?',
         default=None)
     parser.add_argument(
