@@ -6,8 +6,8 @@ Moves all files (including files in subfolders) from a path to another
 
 positional arguments:
   source       all files under this path will be moved
-  destiny      files will be moved here if specified (else will also use the
-               source instead)
+  destiny      files will be moved here if specified (else will use the source
+               instead)
 
 optional arguments:
   -h, --help   show this help message and exit
@@ -44,7 +44,10 @@ def flatmove(source,
 
             # Date folder creation
             y, m, d, *_ = time.gmtime(os.path.getmtime(file_path))
-            date = f"{y if year else ''} {m if month else ''} {d if day else '' }"
+            date = f"{y if year else ''} "
+            f"{m if month else ''} "
+            f"{d if day else '' }"
+
             date_path = os.path.join(destiny, date.strip())
             if not os.path.exists(date_path):
                 os.makedirs(date_path)
@@ -73,7 +76,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "destiny",
         help="files will be moved here if specified "
-        "(else will also use the source instead)",
+        "(else will use the source instead)",
         nargs='?',
         default=None)
     parser.add_argument(

@@ -6,8 +6,8 @@ Moves all files (including files in subfolders) from a path to another
 
 positional arguments:
   source       all files under this path will be moved
-  destiny      files will be moved here if specified (else will also use the
-               source instead)
+  destiny      files will be moved here if specified (else will use the source
+               instead)
 
 optional arguments:
   -h, --help   show this help message and exit
