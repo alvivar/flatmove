@@ -16,6 +16,18 @@ optional arguments:
   -d, --day    use the modified day of the file as subfolder
 
 
+I use this tool to organize my photos, downloads, single files, etc, into
+subfolders based on their modified time.
+
+For example, this will gather all files inside /photos and organize them in
+subfolders by year and month, removing empty folders at the end.
+
+python flatmove.py -ym /photos
+
+*Warning*: Be cautious about using this on files that depend on his folder
+structure, it could get messy :)
+
+
 TODO
     - Handle files with the same name into the same folder exception
 """

@@ -16,7 +16,7 @@ optional arguments:
   -d, --day    use the modified day of the file as subfolder
 ```
 
-I use this tool to organize photos, downloads, single files, etc, into folders based on their modified time.
+I use this tool to organize my photos, downloads, single files, etc, into subfolders based on their modified time.
 
 For **example**, this will gather all files inside /photos and organize them in subfolders by year and month, removing empty folders at the end.
 ```
