@@ -29,7 +29,8 @@ structure, it could get messy :)
 
 
 TODO
-    - Handle files with the same name into the same folder exception
+    -n --nested Generate folders inside folders
+    Handle files with the same name into the same folder exception
 """
 
 import argparse
@@ -56,9 +57,10 @@ def flatmove(source,
 
             # Date folder creation
             y, m, d, *_ = time.gmtime(os.path.getmtime(file_path))
-            date = f"{y if year else ''} "
-            f"{m if month else ''} "
-            f"{d if day else '' }"
+            y = y if year else ''
+            m = m if month else ''
+            d = d if day else ''
+            date = f"{y} {m} {d}".strip()
 
             date_path = os.path.join(destiny, date.strip())
             if not os.path.exists(date_path):
