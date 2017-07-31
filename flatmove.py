@@ -29,8 +29,9 @@ structure, it could get messy :)
 
 
 TODO
-    -n --nested Generate folders inside folders
+    Clean double space inside date folder name
     Handle files with the same name into the same folder exception
+    -n --nested Generate folders inside folders
 """
 
 import argparse
