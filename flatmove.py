@@ -44,13 +44,15 @@ def flatmove(source,
              year=False,
              month=False,
              day=False,
+             batch=0,
              remove_empty_dirs=True):
     """
     Moves files (including files in subdirectories) from source to destiny. It
     can also create subfolders based on the modified time of the file and
-    remove empty dirs.
+    remove empty directories.
     """
 
+    all_date_paths = []
     for root, dirs, files in os.walk(source, topdown=False):
         for file_name in files:
             file_path = os.path.join(root, file_name)
@@ -60,7 +62,7 @@ def flatmove(source,
             y = y if year else ''
             m = m if month else ''
             d = d if day else ''
-            date = f"{y} {m} {d}".strip()
+            date = f"{y} {m} {d}".strip()  # TODO Clean double space
 
             date_path = os.path.join(destiny, date.strip())
             if not os.path.exists(date_path):
@@ -70,13 +72,58 @@ def flatmove(source,
             file_date_path = os.path.join(date_path, file_name)
             if file_date_path != file_path:
                 os.rename(file_path, file_date_path)
+                all_date_paths.append(date_path)
 
-        # Removing leftovers
         if remove_empty_dirs:
             for dir_name in dirs:
                 dir_path = os.path.join(root, dir_name)
                 if not os.listdir(dir_path):
                     os.rmdir(dir_path)
+
+    # Batchefy
+    if batch > 0:
+        for date_path in all_date_paths:
+            batchefy(date_path, date_path, size=batch, remove_empty_dirs=False)
+
+
+def batchefy(source, destiny, *, size=10, remove_empty_dirs=True):
+    """
+    Moves files (including files in subdirectories) from source to destiny,
+    subdividing files in quantities inside enumerated subfolders and removing
+    empty directories.
+    """
+
+    # 0 batches doesn't make sense
+    if size < 1:
+        return
+
+    # All
+    files = []
+    dirs = []
+    for root, ds, fs in os.walk(source, topdown=False):
+        for file_name in fs:
+            files.append(os.path.join(root, file_name))
+        for dir_name in ds:
+            dirs.append(os.path.join(root, dir_name))
+
+    # Move each file to their enumerated folder
+    batches = [files[i:i + size] for i in range(0, len(files), size)]
+    for i, b in enumerate(batches):
+        dir_name = str(i + 1)
+
+        dir_path = os.path.join(destiny, dir_name)
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
+
+        for file_path in b:
+            file_dir_path = os.path.join(dir_path, os.path.basename(file_path))
+            if file_dir_path != file_path:
+                os.rename(file_path, file_dir_path)
+
+    if remove_empty_dirs:
+        for dir_path in dirs:
+            if not os.listdir(dir_path):
+                os.rmdir(dir_path)
 
 
 if __name__ == "__main__":
@@ -108,6 +155,13 @@ if __name__ == "__main__":
         "--day",
         help="use the modified day of the file as subfolder",
         action='store_true')
+    parser.add_argument(
+        "-b",
+        "--batch",
+        help="Subdivide files in quantities inside enumerated subfolders",
+        action='store',
+        type=int,
+        default=0)
 
     args = parser.parse_args()
 
@@ -116,4 +170,10 @@ if __name__ == "__main__":
         args.source if args.destiny is None else args.destiny,
         year=args.year,
         month=args.month,
-        day=args.day)
+        day=args.day,
+        batch=args.batch)
+
+    # batchefy(
+    #     args.source,
+    #     args.source if args.destiny is None else args.destiny,
+    #     size=args.batch)
