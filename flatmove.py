@@ -29,12 +29,12 @@ structure, it could get messy :)
 
 
 TODO
-    Clean double space inside date folder name    
     -n --nested Generate folders inside folders
 """
 
 import argparse
 import os
+import re
 import time
 
 
@@ -77,7 +77,7 @@ def flatmove(source,
             y = y if year else ''
             m = m if month else ''
             d = d if day else ''
-            date = f"{y} {m} {d}".strip()  # TODO Clean double space
+            date = re.sub(" +", " ", f"{y} {m} {d}").strip()
 
             date_path = os.path.join(destiny, date.strip())
             if not os.path.exists(date_path):
@@ -97,7 +97,6 @@ def flatmove(source,
 
     # Batchefy
     if batch > 0:
-        print(all_date_paths)
         for date_path in list(set(all_date_paths)):
             batchefy(date_path, date_path, size=batch, remove_empty_dirs=False)
 
