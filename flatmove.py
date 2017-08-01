@@ -29,14 +29,28 @@ structure, it could get messy :)
 
 
 TODO
-    Clean double space inside date folder name
-    Handle files with the same name into the same folder exception
+    Clean double space inside date folder name    
     -n --nested Generate folders inside folders
 """
 
 import argparse
 import os
 import time
+
+
+def move_file(source, destiny):
+    """
+    Moves or renames a file from source to destiny, if the file already exists
+    a '_' is appended before the extension.
+    """
+
+    try:
+        os.rename(source, destiny)
+    except FileExistsError:
+        base = os.path.basename(destiny)
+        name, ext = os.path.splitext(destiny)
+        alt_destiny = os.path.join(base, name + '_' + ext)
+        move_file(source, alt_destiny)
 
 
 def flatmove(source,
@@ -72,8 +86,8 @@ def flatmove(source,
             # File to date folder
             file_date_path = os.path.join(date_path, file_name)
             if file_date_path != file_path:
-                os.rename(file_path, file_date_path)
                 all_date_paths.append(date_path)
+                move_file(file_path, file_date_path)
 
         if remove_empty_dirs:
             for dir_name in dirs:
@@ -83,7 +97,8 @@ def flatmove(source,
 
     # Batchefy
     if batch > 0:
-        for date_path in all_date_paths:
+        print(all_date_paths)
+        for date_path in list(set(all_date_paths)):
             batchefy(date_path, date_path, size=batch, remove_empty_dirs=False)
 
 
@@ -119,7 +134,7 @@ def batchefy(source, destiny, *, size=10, remove_empty_dirs=True):
         for file_path in b:
             file_dir_path = os.path.join(dir_path, os.path.basename(file_path))
             if file_dir_path != file_path:
-                os.rename(file_path, file_dir_path)
+                move_file(file_path, file_dir_path)
 
     if remove_empty_dirs:
         for dir_path in dirs:
@@ -173,8 +188,3 @@ if __name__ == "__main__":
         month=args.month,
         day=args.day,
         batch=args.batch)
-
-    # batchefy(
-    #     args.source,
-    #     args.source if args.destiny is None else args.destiny,
-    #     size=args.batch)
