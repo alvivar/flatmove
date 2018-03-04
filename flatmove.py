@@ -44,8 +44,8 @@ import time
 
 def move_file(source, destiny):
     """
-    Moves or renames a file from source to destiny, if the file already exists
-    a '_' is appended before the extension.
+        Moves or renames a file from source to destiny, if the file already
+        exists a '_' is appended before the extension.
     """
 
     try:
@@ -66,9 +66,9 @@ def flatmove(source,
              batch=0,
              remove_empty_dirs=True):
     """
-    Moves files (including files in subdirectories) from source to destiny. It
-    can also create subfolders based on the modified time of the file and
-    remove empty directories.
+        Moves files (including files in subdirectories) from source to destiny.
+        It can also create subfolders based on the modified time of the file
+        and remove empty directories.
     """
 
     all_date_paths = []
@@ -107,9 +107,9 @@ def flatmove(source,
 
 def batchefy(source, destiny, *, size=10, remove_empty_dirs=True):
     """
-    Moves files (including files in subdirectories) from source to destiny,
-    subdividing files in quantities inside enumerated subfolders and removing
-    empty directories.
+        Moves files (including files in subdirectories) from source to destiny,
+        subdividing files in quantities inside enumerated subfolders and
+        removing empty directories.
     """
 
     # 0 batches doesn't make sense
